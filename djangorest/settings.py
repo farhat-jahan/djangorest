@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    
 )
 
 REST_FRAMEWORK = {
@@ -105,15 +106,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ################################  NEW SETTING  #######################################################################
+print "os.path.dirname(__file__)==",os.path.dirname(__file__)
+## output   /home/farhat/GMP/djangorest/djangorest
 print "os.path.dirname(os.path.dirname(__file__))==",BASE_DIR
+## output  /home/farhat/GMP/djangorest
 real_path_dir = os.path.dirname(os.path.realpath(__file__))
 print "os.path.realpath(__file__)======",os.path.realpath(__file__)
+## output /home/farhat/GMP/djangorest/djangorest/settings.pyc
 print "os.path.dirname(os.path.realpath(__file__))==",real_path_dir
+## output /home/farhat/GMP/djangorest/djangorest
 TEMPLATE_DIRS = (
                  os.path.join(real_path_dir, 'templates') ,
                  )
 print "template dir====",TEMPLATE_DIRS
-
+## output  ('/home/farhat/GMP/djangorest/djangorest/templates',)
 
 
 
