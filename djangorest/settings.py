@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+    'expense_tracker',
     
 )
 
@@ -67,8 +67,8 @@ WSGI_APPLICATION = 'djangorest.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangorest',
+         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'expense',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
