@@ -21,14 +21,14 @@ class UserDetail(BaseModel):
 
 
 class ExpenseDetail(BaseModel):
-	user_detail = models.OneToOneField(User)
-	amount_spend = models.DecimalField(max_digits = 19, decimal_places = 2)
+	user_detail = models.ForeignKey(User)
+	amount_spent = models.DecimalField(max_digits=19, decimal_places=2)
 	paid_for = models.CharField(max_length=15,choices=PAID_FOR_CHOICE)
 	paid_date = models.DateTimeField(default=timezone.now())
-	description = models.TextField()
-	payment_mode = models.CharField(max_length=10, choices=PAYMENT_MODE_CHOICE)
-	balance = models.DecimalField(max_digits = 19, decimal_places = 2)
+	description = models.TextField(null=True, blank=True)
+	payment_mode = models.CharField(max_length=10, choices=PAYMENT_MODE_CHOICE, null=True, blank=True)
+	balance = models.DecimalField(max_digits=19, decimal_places=2, null=True)
 
 	class Meta:
-		db_table = "expencedetail"
+		db_table = "expensedetail"
 
