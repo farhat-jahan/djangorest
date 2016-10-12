@@ -6,7 +6,7 @@ PAID_FOR_CHOICE = (
     ('Cook', 'Cook'),
     ('Maid', 'Maid'),
     ('Food and Drinks', 'Food and Drinks'),
-    ('Gas', 'Gas')
+    ('Gas', 'Gas'),
     ('Others', 'Others'),
 )
 
