@@ -6,7 +6,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'djangorest.views.home', name='home'),
-    url(r'^frontend/', include('frontend.urls')),
+      url(r'^expensetracker/', include('expense_tracker.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
+      url(r'^admin/', include(admin.site.urls)),
 )
