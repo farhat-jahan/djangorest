@@ -4,7 +4,8 @@ from django.shortcuts import render
 from expense_tracker.models import UserDetail
 from django.views.decorators.csrf import csrf_exempt
 from expense_tracker.serializers import UserDetailSerializer
-
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 #####API call URL::: http://127.0.0.1:8000/expensetracker/user/
 
 class JSONResponse(HttpResponse):
@@ -21,17 +22,13 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 @csrf_exempt
+@api_view(['GET', 'POST', ])
 def user_list(request):
     print "inside===user list=================="
     if request.method == 'GET':
         user_obj = UserDetail.objects.all()
         print" user_obj=============", user_obj
         user_serializer = UserDetailSerializer(user_obj, many=True)
-        
-        try:
-            print "ser.data===========", user_serializer.data
-        except Exception as e:
-            print "ex================",e
-        return JSONResponse(user_serializer.data)
+        return Response(user_serializer.data)
         
         
