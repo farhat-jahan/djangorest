@@ -4,4 +4,5 @@ from expense_tracker import views
 
 urlpatterns = [
                url(r'^user/$',views.user_list),
+               url(r'^expense/$',views.expense_details),
                ]
