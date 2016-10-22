@@ -8,7 +8,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
         
         
 class ExpenseDetailSerializer(serializers.ModelSerializer):
-    print "exserializeddtrrrrrrr==================="
+   # print "exserializeddtrrrrrrr==================="
     class Meta:
         model = ExpenseDetail
         
