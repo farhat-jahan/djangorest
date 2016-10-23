@@ -8,8 +8,10 @@ from expense_tracker.serializers import UserDetailSerializer,\
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
-#####API call URL::: http://127.0.0.1:8000/expensetracker/user/
-
+import json, sys
+from rest_framework import status
+#####API call URL::: http://127.0.0.1:8000/expensetracker/user
+#####API call URL::: http://127.0.0.1:8000/expensetracker/expense
 
 class JSONResponse(HttpResponse):
     """
@@ -20,55 +22,60 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
 
-
 @csrf_exempt
 @api_view(['GET', 'POST', ])
 def user_list(request):
     if request.method == 'GET':
         user_obj = UserDetail.objects.all()
         user_serializer = UserDetailSerializer(user_obj, many=True)
-        # return JSONResponse(serializer.data)
+        #return JSONResponse(user_serializer.data)
         return Response(user_serializer.data)
     
     elif request.method == 'POST':
-        print " inside==============posttttttt"
+        print request.body
         data = JSONParser().parse(request)
-        print "posttttttt data==========", data
         serializer = UserDetailSerializer(data=data)
         if serializer.is_valid():
-            
             serializer.save()
             return JSONResponse(serializer.data, status=201)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-                return Response(
-                    serializer.errors, status=500)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                  
         return JSONResponse(serializer.errors, status=400)
     
 #@csrf_exempt
 @api_view(['GET', 'POST', ])
 def expense_details(request):
-    dict = {}
     if request.method == 'GET':
         expense_obj = ExpenseDetail.objects.all()#.select_related('user_detail')
-        expense_serializer = ExpenseDetailSerializer(dict, many=True)
-        print type(expense_serializer.data)
+        expense_serializer = ExpenseDetailSerializer(expense_obj, many=True)
+        print expense_serializer.data
         return JSONResponse(expense_serializer.data)
-       # return Response(expense_serializer.data)
-       
+        # return Response(expense_serializer.data)
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = ExpenseDetailSerializer(data=data)
+        serializer = ExpenseDetailSerializer(data=request.data)
+        print serializer
         if serializer.is_valid():
             serializer.save()
             return JSONResponse(serializer.data, status=201)
         else:
-                return Response(serializer.errors, status=500)
+            return Response(serializer.errors, status=500)
                  
-        return JSONResponse(serializer.errors, status=400)
-        
-
-
+'''
+request.data= if you will select "json" in body in POSTMAN 
+{u'amount_spent': u'200', u'paid_for': u'Maid', u'balance': u'800', u'user_detail': u'1', u'description': u'paid for maid'}
+============request.body= if you will select "text" in body in POSTMAN"
+{  
+"user_detail" : "1",
+"amount_spent": "200",
+"description": "paid for maid",
+"balance": "800",
+"paid_for":"Maid"
+}
+data = JSONParser().parse(request)
+{u'amount_spent': u'200', u'paid_for': u'Maid', u'balance': u'800', u'user_detail': u'1', u'description': u'paid for maid'}
+'''
     
 
 

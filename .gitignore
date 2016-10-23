@@ -1,2 +1,3 @@
 test_virtualEnv/*
 db.sqlite3/*
+apicall/*
