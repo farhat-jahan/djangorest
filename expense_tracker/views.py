@@ -47,6 +47,10 @@ def user_list(request):
 #@csrf_exempt
 @api_view(['GET', 'POST', ])
 def expense_details(request):
+    print "===================="
+    print request.method
+    print request.GET.get('id')
+    print "===================="
     if request.method == 'GET':
         expense_obj = ExpenseDetail.objects.all()#.select_related('user_detail')
         expense_serializer = ExpenseDetailSerializer(expense_obj, many=True)
@@ -80,7 +84,9 @@ data = JSONParser().parse(request)
 
 
 
-
+#ew2908904
+#EW278112725IN
+#5293750712000764
 
 
 
