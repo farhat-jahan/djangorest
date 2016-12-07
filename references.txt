@@ -1,3 +1,7 @@
 For django restFramework start:
 	http://www.django-rest-framework.org/tutorial/quickstart/
 	
+	
+OOPs concept:
+https://www.youtube.com/watch?v=BJ-VvGyQxho&spfreload=1
+	

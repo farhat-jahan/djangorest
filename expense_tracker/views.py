@@ -10,6 +10,8 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 import json, sys
 from rest_framework import status
+import sys
+from decimal import Decimal
 #####API call URL::: http://127.0.0.1:8000/expensetracker/user
 #####API call URL::: http://127.0.0.1:8000/expensetracker/expense
 
@@ -45,11 +47,11 @@ def user_list(request):
         return JSONResponse(serializer.errors, status=400)
     
 #@csrf_exempt
-@api_view(['GET', 'POST', ])
+@api_view(['GET', 'POST','PUT' ])
 def expense_details(request):
     print "===================="
     print request.method
-    print request.GET.get('id')
+   # print request.GET.get('id')
     print "===================="
     if request.method == 'GET':
         expense_obj = ExpenseDetail.objects.all()#.select_related('user_detail')
@@ -59,12 +61,38 @@ def expense_details(request):
         # return Response(expense_serializer.data)
     elif request.method == 'POST':
         serializer = ExpenseDetailSerializer(data=request.data)
-        print serializer
+        print"serializer==", serializer
         if serializer.is_valid():
             serializer.save()
             return JSONResponse(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=500)
+    elif request.method == 'PUT':
+        user_id = request.data['user_detail']
+        am = Decimal(request.data['amount_spent'])
+        des = request.data['description']
+        pa  = request.data['paid_for']
+        print type(am)
+        print type(des), type(pa)
+        print "????????", Decimal(request.data['amount_spent'])
+        try:
+            data  = ExpenseDetail.objects.get(user_detail=user_id)
+            # data = ExpenseDetail.objects.filter(user_detail=5).update(amount_spent=8000,description='Food and Drinks',paid_for='Food and Drinks')
+            print type(data.amount_spent)
+            print type(data.description)
+            print type(data.paid_for)
+           # sys.exit()
+            print "=============="
+            data.amount_spent=request.data['amount_spent']
+            data.description = request.data['description']
+            data.paid_for = request.data['paid_for']
+            data.save()
+        except ExpenseDetail.DoesNotExist:
+            # return Response({'user': 'user Not found'})
+            raise ValueError("user doen not exist")
+            # raise status.HTTP_400_BAD_REQUEST
+        return Response(request, status=status.HTTP_200_OK)
+       
                  
 '''
 request.data= if you will select "json" in body in POSTMAN 
