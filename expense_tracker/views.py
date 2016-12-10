@@ -65,26 +65,27 @@ def expense_details(request):
         else:
             return Response(serializer.errors, status=500)
     elif request.method == 'PUT':
-#         serializer = ExpenseDetailSerializer(data =request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-        user_id = request.data['user_detail']
-        try:
-            data  = ExpenseDetail.objects.get(user_detail=user_id)
-            # data = ExpenseDetail.objects.filter(user_detail=5).update(amount_spent=8000,description='Food and Drinks',paid_for='Food and Drinks')
-            data.amount_spent=request.data['amount_spent']
-            data.description = request.data['description']
-            data.paid_for = request.data['paid_for']
-            data.save()
-        except (Exception, ExpenseDetail.DoesNotExist):
-            # return Response({'user': 'user Not found'})
-            print "hiiiiiiiiiiiiii"
-            raise ValueError("user doen not exist")
-            raise status.HTTP_400_BAD_REQUEST
-        return Response(request, status=status.HTTP_200_OK)
+        serializer = ExpenseDetailSerializer(data =request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     elif request.method == 'PUT':
+#         user_id = request.data['user_detail']
+#         try:
+#             data  = ExpenseDetail.objects.get(user_detail=user_id)
+#             # data = ExpenseDetail.objects.filter(user_detail=5).update(amount_spent=8000,description='Food and Drinks',paid_for='Food and Drinks')
+#             data.amount_spent=request.data['amount_spent']
+#             data.description = request.data['description']
+#             data.paid_for = request.data['paid_for']
+#             data.save()
+#         except (Exception, ExpenseDetail.DoesNotExist):
+#             # return Response({'user': 'user Not found'})
+#             raise ValueError("user doen not exist")
+#             raise status.HTTP_400_BAD_REQUEST
+#         return Response({'user': 'Data updated'}, status=status.HTTP_200_OK)
+#         # Response takes 1st iterable objects
        
                  
 '''
