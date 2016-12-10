@@ -49,10 +49,8 @@ def user_list(request):
 #@csrf_exempt
 @api_view(['GET', 'POST','PUT' ])
 def expense_details(request):
-    print "===================="
-    print request.method
+   # print request.method
    # print request.GET.get('id')
-    print "===================="
     if request.method == 'GET':
         expense_obj = ExpenseDetail.objects.all()#.select_related('user_detail')
         expense_serializer = ExpenseDetailSerializer(expense_obj, many=True)
@@ -61,36 +59,31 @@ def expense_details(request):
         # return Response(expense_serializer.data)
     elif request.method == 'POST':
         serializer = ExpenseDetailSerializer(data=request.data)
-        print"serializer==", serializer
         if serializer.is_valid():
             serializer.save()
             return JSONResponse(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=500)
     elif request.method == 'PUT':
+#         serializer = ExpenseDetailSerializer(data =request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
         user_id = request.data['user_detail']
-        am = Decimal(request.data['amount_spent'])
-        des = request.data['description']
-        pa  = request.data['paid_for']
-        print type(am)
-        print type(des), type(pa)
-        print "????????", Decimal(request.data['amount_spent'])
         try:
             data  = ExpenseDetail.objects.get(user_detail=user_id)
             # data = ExpenseDetail.objects.filter(user_detail=5).update(amount_spent=8000,description='Food and Drinks',paid_for='Food and Drinks')
-            print type(data.amount_spent)
-            print type(data.description)
-            print type(data.paid_for)
-           # sys.exit()
-            print "=============="
             data.amount_spent=request.data['amount_spent']
             data.description = request.data['description']
             data.paid_for = request.data['paid_for']
             data.save()
-        except ExpenseDetail.DoesNotExist:
+        except (Exception, ExpenseDetail.DoesNotExist):
             # return Response({'user': 'user Not found'})
+            print "hiiiiiiiiiiiiii"
             raise ValueError("user doen not exist")
-            # raise status.HTTP_400_BAD_REQUEST
+            raise status.HTTP_400_BAD_REQUEST
         return Response(request, status=status.HTTP_200_OK)
        
                  
